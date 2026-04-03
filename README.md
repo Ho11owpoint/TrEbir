@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Atlas Paper Trader
 
-## Getting Started
+Gercek piyasa verisiyle calisan, BIST evrenini tarayan, teknik analiz sinyalleri ureten ve demo para ile paper trading yapan bir Next.js uygulamasi.
 
-First, run the development server:
+## Ne Yapar
+
+- Yahoo Finance `chart` uzerinden gunluk gercek fiyat verisini ceker.
+- KAP uzerinden guncel BIST sirket evrenini ceker.
+- Secili semboller icin 20/50 gunluk ortalama, RSI 14, momentum, volatilite ve ATR hesaplar.
+- BIST 100 (`XU100.IS`) ile piyasa rejimini okur.
+- Tum BIST hisselerini tarayip en yuksek skorlu adaylar icin risk ayarli alim onerisi uretir.
+- Onerileri sepet mantigiyla secip tek tusla demo satin alma akisi sunar.
+- Demo portfoy uzerinde alim, kisimli satis ve pozisyon kapatma simule eder.
+- Portfoyu yerelde `data/paper-portfolio.json` dosyasina yazar.
+
+## Onemli Not
+
+Bu uygulama egitim ve simulasyon amaclidir. Kar garantisi vermez; gercek para ile kullanmadan once kendi arastirmani yapman gerekir.
+
+## Calistirma
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sonra [http://localhost:3000](http://localhost:3000) adresini ac.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Varsayimlar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Demo hesap varsayilan olarak `TRY` bazlidir.
+- Farkli para birimindeki semboller analiz edilir ama emir kabul edilmez.
+- Varsayilan izleme listesi BIST odaklidir: `XU100.IS`, `THYAO.IS`, `ASELS.IS`, `BIMAS.IS`, `AKBNK.IS`, `EREGL.IS`, `SISE.IS`.
+- BIST taramasi ilk seferde biraz surebilir; sonuclar onbellege alinip yeniden kullanilir.
 
-## Learn More
+## Mimari
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/api/dashboard`: veri ve teknik analiz cevabi
+- `app/api/scanner`: tum BIST evreni taramasi ve oneriler
+- `app/api/portfolio`: demo portfoy ozeti
+- `app/api/orders`: paper trading emirleri
+- `app/api/orders/bulk`: sepetten toplu demo alim
+- `lib/market.ts`: piyasa verisi alma ve cache
+- `lib/universe.ts`: KAP'tan BIST evreni alma
+- `lib/scanner.ts`: tam piyasa taramasi ve oneriler
+- `lib/portfolio.ts`: demo portfoy kaliciligi
+- `components/market-lab.tsx`: ana panel

@@ -1,0 +1,1752 @@
+.shell {
+  position: relative;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 30px 22px 72px;
+  display: grid;
+  gap: 20px;
+}
+
+.shell::before,
+.shell::after {
+  content: "";
+  position: fixed;
+  inset: auto;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.32;
+  z-index: 0;
+}
+
+.shell::before {
+  top: -120px;
+  right: -120px;
+  background: rgba(79, 139, 255, 0.18);
+}
+
+.shell::after {
+  bottom: -160px;
+  left: -140px;
+  background: rgba(33, 207, 177, 0.12);
+}
+
+.hero,
+.strategyPanel,
+.backtestPanel,
+.analyticsPanel,
+.alertPanel,
+.journalPanel,
+.metricPanel,
+.stockCard,
+.cartPanel,
+.focusPanel,
+.tablePanel {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(154, 173, 196, 0.14);
+  background:
+    linear-gradient(180deg, rgba(12, 18, 30, 0.94), rgba(7, 12, 20, 0.92)),
+    radial-gradient(circle at top right, rgba(79, 139, 255, 0.1), transparent 34%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(20px);
+  color: #edf3fb;
+  animation: riseIn 420ms ease both;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.9fr);
+  gap: 20px;
+  padding: 30px;
+  border-radius: 36px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(79, 139, 255, 0.08), transparent 30%),
+    radial-gradient(circle at 80% 20%, rgba(41, 197, 169, 0.1), transparent 22%);
+  pointer-events: none;
+}
+
+.heroContent {
+  display: grid;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.kicker,
+.metaLabel,
+.metaSubtle,
+.sectionNote,
+.liveBadge,
+.cardTicker,
+.cartSymbol {
+  font-family: var(--font-mono), monospace;
+}
+
+.kicker,
+.metaLabel {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7da6ff;
+}
+
+.heroTitle {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  max-width: 11ch;
+}
+
+.heroText,
+.marketText,
+.metaSubtle,
+.sectionNote {
+  color: #91a2b8;
+  line-height: 1.6;
+}
+
+.heroPulseRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.heroPulseItem {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #cad6e4;
+  font-size: 12px;
+  font-family: var(--font-mono), monospace;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.primaryButton,
+.secondaryButton,
+.textButton,
+.addCartButton,
+.removeCartButton,
+.checkoutButton,
+.chartTab,
+.iconButton {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 160ms ease, opacity 160ms ease, background 160ms ease;
+}
+
+.primaryButton,
+.checkoutButton {
+  background: linear-gradient(135deg, #5c96ff, #7b7cff);
+  color: #f8fbff;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 13px 20px;
+  box-shadow: 0 16px 30px rgba(79, 139, 255, 0.24);
+}
+
+.secondaryButton,
+.textButton,
+.addCartButton,
+.removeCartButton,
+.chartTab,
+.iconButton {
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  border-radius: 999px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.textButton:hover,
+.addCartButton:hover,
+.removeCartButton:hover,
+.checkoutButton:hover,
+.chartTab:hover,
+.iconButton:hover {
+  transform: translateY(-1px);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.textButton:disabled,
+.addCartButton:disabled,
+.removeCartButton:disabled,
+.checkoutButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.marketCard {
+  border-radius: 30px;
+  padding: 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+.marketGood {
+  background:
+    linear-gradient(160deg, rgba(51, 196, 129, 0.18), rgba(10, 16, 27, 0.94)),
+    linear-gradient(180deg, rgba(12, 18, 30, 0.92), rgba(9, 13, 21, 0.92));
+}
+
+.marketCareful {
+  background:
+    linear-gradient(160deg, rgba(240, 106, 106, 0.18), rgba(10, 16, 27, 0.94)),
+    linear-gradient(180deg, rgba(12, 18, 30, 0.92), rgba(9, 13, 21, 0.92));
+}
+
+.marketNeutral {
+  background:
+    linear-gradient(160deg, rgba(101, 157, 176, 0.14), rgba(10, 16, 27, 0.94)),
+    linear-gradient(180deg, rgba(12, 18, 30, 0.92), rgba(9, 13, 21, 0.92));
+}
+
+.marketCardTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.liveBadge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #dce7f3;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.marketScore {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 20px 0 6px;
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.marketScore span,
+.focusBadge span,
+.cardScore span {
+  font-size: 0.9rem;
+  color: #9ab0be;
+}
+
+.marketTitle {
+  font-size: 1.45rem;
+  margin-bottom: 8px;
+}
+
+.successBanner,
+.errorBanner {
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 0.95rem;
+}
+
+.successBanner {
+  background: rgba(51, 196, 129, 0.16);
+  color: #c7ffe5;
+}
+
+.errorBanner {
+  background: rgba(240, 106, 106, 0.14);
+  color: #ffd2d2;
+}
+
+.metricsRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metricPanel {
+  border-radius: 26px;
+  padding: 20px;
+}
+
+.metricValue {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.metricValueSmall {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.recommendationSection {
+  display: grid;
+  gap: 14px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+}
+
+.sectionTitle {
+  font-size: 1.45rem;
+  margin-top: 4px;
+}
+
+.sectionNote {
+  font-size: 12px;
+  max-width: 34ch;
+  text-align: right;
+}
+
+.recommendationLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
+  gap: 18px;
+  align-items: start;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stockCard {
+  border-radius: 26px;
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.stockCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(92, 150, 255, 0.38);
+  box-shadow: 0 26px 48px rgba(0, 0, 0, 0.28);
+}
+
+.stockCardActive {
+  border-color: rgba(92, 150, 255, 0.64);
+  box-shadow: 0 18px 40px rgba(79, 139, 255, 0.16);
+}
+
+.cardSelect {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+  display: grid;
+  gap: 14px;
+}
+
+.cardHeader,
+.cardStats,
+.cardRecommendation,
+.cardMetaRow,
+.cartHeader,
+.cartItemTop,
+.cartControls,
+.focusHeader,
+.detailMetrics {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardTicker {
+  color: #9fb3c0;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.cardCompany {
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.cardScore {
+  min-width: 76px;
+  min-height: 76px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 20%, rgba(92, 150, 255, 0.22), rgba(92, 150, 255, 0.06));
+  color: #dce8ff;
+  font-size: 1.45rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.cardStats strong {
+  font-size: 1.3rem;
+}
+
+.cardRecommendation {
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.cardRecommendation strong {
+  font-size: 1.12rem;
+}
+
+.scoreSummary {
+  color: #d7e2e8;
+  line-height: 1.55;
+  font-size: 0.94rem;
+}
+
+.eventSummaryCard,
+.eventPanel,
+.eventColumn,
+.eventItem {
+  display: grid;
+  gap: 10px;
+}
+
+.eventSummaryCard,
+.eventPanel,
+.eventColumn {
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.eventSummaryHeader,
+.eventItemTop,
+.eventItemLinks {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.eventSummaryText,
+.eventItemSummary {
+  color: #d7e2e8;
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+
+.eventRiskPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.eventRiskLow {
+  background: rgba(70, 197, 140, 0.16);
+  color: #88e0b8;
+}
+
+.eventRiskMedium {
+  background: rgba(241, 157, 71, 0.16);
+  color: #f2bf7f;
+}
+
+.eventRiskHigh {
+  background: rgba(239, 106, 103, 0.18);
+  color: #ffb3b0;
+}
+
+.eventColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.eventList {
+  display: grid;
+  gap: 10px;
+}
+
+.eventItem {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.eventItemTitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.eventItemMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+  color: #9ab0be;
+  font-size: 12px;
+}
+
+.eventLink {
+  color: #f2bf7f;
+  text-decoration: none;
+}
+
+.eventLink:hover {
+  text-decoration: underline;
+}
+
+.factorGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.factorPanel {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.factorList {
+  display: grid;
+  gap: 8px;
+}
+
+.factorItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: start;
+}
+
+.factorLabel {
+  color: #d7e2e8;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(70, 197, 140, 0.12);
+  color: #88e0b8;
+}
+
+.addCartButton {
+  width: 100%;
+  background: rgba(70, 197, 140, 0.14);
+  color: #88e0b8;
+}
+
+.removeCartButton {
+  width: 100%;
+  background: rgba(239, 106, 103, 0.14);
+  color: #ffb3b0;
+}
+
+.cartPanel {
+  border-radius: 30px;
+  padding: 22px;
+  display: grid;
+  gap: 16px;
+  position: sticky;
+  top: 18px;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.34);
+}
+
+.cartSummary {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cartSummary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cartList {
+  display: grid;
+  gap: 12px;
+}
+
+.cartItem {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.cartSymbol {
+  font-size: 1rem;
+  color: #eef4f7;
+}
+
+.cartField {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  color: #9ab0be;
+}
+
+.cartField input {
+  width: 92px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  padding: 10px 12px;
+}
+
+.cartPrice {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.checkoutButton {
+  width: 100%;
+}
+
+.backtestPanel {
+  border-radius: 30px;
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.strategyPanel {
+  border-radius: 30px;
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.analyticsPanel {
+  border-radius: 30px;
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.alertPanel {
+  border-radius: 30px;
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.journalPanel {
+  border-radius: 30px;
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.backtestLayout {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.strategySelectWrap {
+  display: grid;
+  gap: 8px;
+  min-width: 220px;
+  color: #9ab0be;
+  font-size: 12px;
+}
+
+.strategyCompareGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.strategyCompareCard {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.strategySymbolRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.backtestControls,
+.backtestResults {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.formField {
+  display: grid;
+  gap: 8px;
+  color: #9ab0be;
+  font-size: 12px;
+}
+
+.formFieldWide {
+  grid-column: 1 / -1;
+}
+
+.formInput {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.formTextarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.formInput:focus {
+  border-color: rgba(241, 157, 71, 0.65);
+  box-shadow: 0 0 0 3px rgba(241, 157, 71, 0.12);
+}
+
+.formFooter,
+.equityCurveMeta,
+.metricStrip,
+.metricStripItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.formFooter {
+  align-items: end;
+}
+
+.formHints {
+  display: grid;
+  gap: 6px;
+}
+
+.warningPanel {
+  display: grid;
+  gap: 10px;
+}
+
+.warningItem {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(241, 157, 71, 0.14);
+  color: #f2bf7f;
+  line-height: 1.5;
+}
+
+.backtestMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.metricStrip {
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.metricStripItem {
+  min-width: 140px;
+  align-items: center;
+}
+
+.metricStripItem span {
+  color: #9ab0be;
+  font-size: 12px;
+}
+
+.equityCurveFrame {
+  display: grid;
+  gap: 12px;
+}
+
+.equityCurveMeta {
+  align-items: end;
+}
+
+.equityCurveValue {
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  font-weight: 700;
+}
+
+.equityCurveCanvas {
+  overflow: hidden;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.equityCurveSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.equityCurveGrid {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+.equityCurveArea {
+  fill: rgba(104, 206, 223, 0.14);
+}
+
+.equityCurveLine {
+  fill: none;
+  stroke: #68cedf;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.analyticsMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.analyticsMetricCard,
+.analyticsChartCard,
+.analyticsCard {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.analyticsMetricCard span {
+  color: #9ab0be;
+  font-size: 12px;
+}
+
+.analyticsMetricCard strong {
+  font-size: 1.24rem;
+}
+
+.analyticsChartGrid,
+.analyticsInsightGrid,
+.analyticsTableGrid {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+.analyticsChartGrid,
+.analyticsTableGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.analyticsInsightGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.analyticsChartValue {
+  font-size: clamp(1.25rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+}
+
+.analyticsBarList,
+.analyticsPnlSummary,
+.analyticsPositionList,
+.analyticsBenchmarkBox {
+  display: grid;
+  gap: 12px;
+}
+
+.analyticsBarItem,
+.analyticsPnlItem,
+.analyticsPositionItem,
+.analyticsBenchmarkBox {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.analyticsBarHeader,
+.analyticsPositionItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.analyticsBarValue {
+  font-weight: 700;
+}
+
+.analyticsBarTrack {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.analyticsBarFill,
+.analyticsPnlFillPositive,
+.analyticsPnlFillNegative {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.analyticsBarFill,
+.analyticsPnlFillPositive {
+  background: linear-gradient(90deg, rgba(104, 206, 223, 0.78), rgba(241, 157, 71, 0.82));
+}
+
+.analyticsPnlFillNegative {
+  background: linear-gradient(90deg, rgba(239, 106, 103, 0.7), rgba(255, 158, 153, 0.92));
+}
+
+.analyticsPositionMeta {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+}
+
+.analyticsBenchmarkBox strong {
+  color: #eef4f7;
+}
+
+.analyticsEquityArea {
+  fill: rgba(104, 206, 223, 0.14);
+}
+
+.analyticsEquityLine {
+  fill: none;
+  stroke: #68cedf;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.alertLayout {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.alertCreateCard,
+.alertRuleCard,
+.alertHistoryItem {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.alertStack,
+.alertRuleList,
+.alertHistoryList {
+  display: grid;
+  gap: 14px;
+}
+
+.alertHeadline {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.alertContextList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.analyticsDrawdownArea {
+  fill: rgba(239, 106, 103, 0.14);
+}
+
+.analyticsDrawdownLine {
+  fill: none;
+  stroke: #ff9e99;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lowerGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.rightColumn {
+  display: grid;
+  gap: 18px;
+}
+
+.focusPanel,
+.tablePanel {
+  border-radius: 30px;
+  padding: 22px;
+  display: grid;
+  gap: 16px;
+}
+
+.ticketPanel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.journalComposer,
+.journalComposerPanel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.journalEntryList {
+  display: grid;
+  gap: 14px;
+}
+
+.journalEntryCard {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.journalEntryHeader,
+.journalMetaRow,
+.journalTagRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.journalText {
+  color: #d7e2e8;
+  line-height: 1.6;
+}
+
+.journalSubBlock {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.journalSubBlock span {
+  color: #9ab0be;
+  font-size: 12px;
+}
+
+.journalSubBlock p {
+  color: #d7e2e8;
+  line-height: 1.55;
+}
+
+.journalTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(104, 206, 223, 0.12);
+  color: #98ddea;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 74px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.statusPending {
+  background: rgba(104, 206, 223, 0.14);
+  color: #98ddea;
+}
+
+.statusFilled {
+  background: rgba(70, 197, 140, 0.16);
+  color: #88e0b8;
+}
+
+.statusPartial {
+  background: rgba(241, 157, 71, 0.16);
+  color: #f2bf7f;
+}
+
+.statusCancelled {
+  background: rgba(255, 255, 255, 0.1);
+  color: #d9e1e6;
+}
+
+.statusRejected {
+  background: rgba(239, 106, 103, 0.18);
+  color: #ffb3b0;
+}
+
+.focusCompany {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.focusBadge {
+  min-width: 92px;
+  min-height: 92px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(241, 157, 71, 0.12);
+  color: #f2bf7f;
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.detailMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.detailMetric {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.detailMetric span {
+  color: #9ab0be;
+  font-size: 12px;
+}
+
+.detailMetric strong {
+  font-size: 1.06rem;
+}
+
+.thesisPanel {
+  display: grid;
+  gap: 10px;
+}
+
+.thesisItem {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d7e2e8;
+  line-height: 1.5;
+}
+
+.tableWrap {
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  font-size: 0.92rem;
+}
+
+.table th {
+  color: #9ab0be;
+  font-weight: 500;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.emptyState {
+  padding: 24px 0;
+  text-align: center;
+  color: #9ab0be;
+}
+
+.buyText,
+.positive {
+  color: #7de2b4;
+}
+
+.sellText,
+.negative {
+  color: #ff9e99;
+}
+
+.neutral {
+  color: #d9e1e6;
+}
+
+.chartTerminal {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(5, 10, 18, 0.96), rgba(9, 14, 24, 0.92)),
+    radial-gradient(circle at top right, rgba(79, 139, 255, 0.12), transparent 28%);
+  border: 1px solid rgba(154, 173, 196, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.chartTerminalHeader,
+.chartSymbolRow,
+.chartPriceRow,
+.chartMetaRow,
+.chartControlStack,
+.chartToggleRow,
+.chartFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
+.chartTerminalHeader {
+  align-items: start;
+}
+
+.chartIdentity {
+  display: grid;
+  gap: 10px;
+}
+
+.chartSymbol {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  letter-spacing: -0.03em;
+}
+
+.chartSymbol span {
+  color: #90a2b8;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.chartLastPrice {
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.chartMetaRow {
+  flex-wrap: wrap;
+  color: #90a2b8;
+  font-size: 12px;
+}
+
+.chartControlStack {
+  flex-direction: column;
+  align-items: end;
+}
+
+.segmentedControl {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.segmentButton,
+.toggleChip {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #9cb0c7;
+  cursor: pointer;
+  font: inherit;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease,
+    border-color 160ms ease;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.segmentButton:hover,
+.toggleChip:hover {
+  transform: translateY(-1px);
+  color: #e4ebf5;
+}
+
+.segmentButtonActive {
+  background: linear-gradient(135deg, rgba(79, 139, 255, 0.24), rgba(110, 123, 255, 0.2));
+  color: #edf4ff;
+  border-color: rgba(92, 150, 255, 0.24);
+}
+
+.toggleChipActive {
+  background: rgba(255, 255, 255, 0.09);
+  color: #f1f6fc;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.chartSubHeader {
+  display: grid;
+  gap: 12px;
+}
+
+.chartMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.chartMetaCard {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chartMetaCard span,
+.chartFooterItem span {
+  color: #8394a9;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.chartMetaCard strong,
+.chartFooterItem strong {
+  color: #edf4ff;
+}
+
+.chartMetaCard small {
+  color: #90a2b8;
+  line-height: 1.45;
+}
+
+.chartWarningStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chartWarningChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(243, 186, 90, 0.12);
+  color: #f3ba5a;
+  font-size: 12px;
+}
+
+.chartShell {
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(7, 11, 18, 0.96), rgba(10, 15, 24, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chartLoadingState {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.chartSkeletonTop,
+.chartSkeletonCanvas,
+.chartSkeletonBottom {
+  border-radius: 18px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.04)
+  );
+  background-size: 240% 100%;
+  animation: shimmer 1.8s ease infinite;
+}
+
+.chartSkeletonTop {
+  height: 64px;
+}
+
+.chartSkeletonCanvas {
+  height: 560px;
+}
+
+.chartSkeletonBottom {
+  height: 54px;
+}
+
+.chartFooter {
+  flex-wrap: wrap;
+}
+
+.chartFooterItem {
+  display: grid;
+  gap: 6px;
+  min-width: 120px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.chartRegimeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-mono), monospace;
+}
+
+.chartRegimeGood {
+  background: rgba(51, 196, 129, 0.14);
+  color: #6de0a7;
+}
+
+.chartRegimeRisk {
+  background: rgba(240, 106, 106, 0.14);
+  color: #ff9b9b;
+}
+
+.chartRegimeNeutral {
+  background: rgba(154, 173, 196, 0.12);
+  color: #c3cfdd;
+}
+
+.chartFrame {
+  display: grid;
+  gap: 12px;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+}
+
+.chartPrice {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+}
+
+.chartTabs {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.chartTab {
+  padding: 10px 14px;
+}
+
+.chartTabActive {
+  background: rgba(241, 157, 71, 0.16);
+  color: #f2bf7f;
+}
+
+.chartCanvas {
+  overflow: hidden;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.chartSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chartGrid {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+.chartArea {
+  fill: rgba(241, 157, 71, 0.12);
+}
+
+.chartLinePrimary,
+.chartLineAccent,
+.chartLineSecondary {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chartLinePrimary {
+  stroke: #f6efe1;
+}
+
+.chartLineAccent {
+  stroke: #ef9a47;
+}
+
+.chartLineSecondary {
+  stroke: rgba(104, 206, 223, 0.82);
+}
+
+.chartLegend,
+.axisLabels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #93a7b4;
+  font-size: 12px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendSwatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.legendPrimary {
+  background: #f6efe1;
+}
+
+.legendAccent {
+  background: #ef9a47;
+}
+
+.legendSecondary {
+  background: #68cedf;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@media (max-width: 1260px) {
+  .metricsRow,
+  .chartMetaGrid,
+  .detailMetrics,
+  .backtestMetrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analyticsChartGrid,
+  .analyticsInsightGrid,
+  .analyticsTableGrid,
+  .alertLayout,
+  .backtestLayout,
+  .recommendationLayout,
+  .lowerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cartPanel {
+    position: static;
+  }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    padding: 18px 14px 48px;
+  }
+
+  .hero,
+  .cardGrid,
+  .chartMetaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 22px;
+  }
+
+  .heroTitle {
+    max-width: none;
+  }
+
+  .metricsRow,
+  .detailMetrics,
+  .backtestMetrics,
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader,
+  .chartTerminalHeader,
+  .chartHeader,
+  .heroActions,
+  .cardHeader,
+  .cardStats,
+  .cardRecommendation,
+  .chartSymbolRow,
+  .chartPriceRow,
+  .chartMetaRow,
+  .chartControlStack,
+  .chartFooter,
+  .cardMetaRow,
+  .eventSummaryHeader,
+  .eventItemTop,
+  .eventItemLinks,
+  .factorItem,
+  .focusHeader,
+  .formFooter,
+  .analyticsBarHeader,
+  .analyticsPositionItem,
+  .journalEntryHeader,
+  .journalMetaRow,
+  .alertHeadline,
+  .equityCurveMeta,
+  .metricStrip,
+  .metricStripItem,
+  .actionRow {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .cardScore,
+  .focusBadge {
+    min-width: 74px;
+    min-height: 74px;
+    font-size: 1.5rem;
+  }
+
+  .chartLastPrice {
+    font-size: 2rem;
+  }
+
+  .factorGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .eventColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .strategyCompareGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionNote {
+    text-align: left;
+  }
+}

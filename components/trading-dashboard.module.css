@@ -1,0 +1,575 @@
+.shell {
+  position: relative;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 40px 24px 56px;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 18px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(239, 143, 53, 0.18), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(79, 157, 172, 0.18), transparent 24%);
+  filter: blur(26px);
+  pointer-events: none;
+}
+
+.panel {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 28px;
+  background: rgba(12, 31, 44, 0.82);
+  color: #f4f0e7;
+  box-shadow: var(--page-shadow);
+  backdrop-filter: blur(20px);
+}
+
+.masthead {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.8fr);
+  gap: 24px;
+  padding: 30px;
+  margin-bottom: 18px;
+}
+
+.mastheadCopy {
+  display: grid;
+  gap: 14px;
+}
+
+.eyebrow,
+.sectionTag,
+.statLabel,
+.metricLabel,
+.panelSubtitle,
+.helperText,
+.status,
+.inputLabel {
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.04em;
+}
+
+.eyebrow,
+.sectionTag {
+  color: #f0bb7a;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(2.4rem, 5vw, 4.3rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  max-width: 10ch;
+}
+
+.subtitle,
+.contextText {
+  color: #b5c2cb;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.primaryButton,
+.ghostButton,
+.fullWidthButton,
+.tabButton {
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 150ms ease, background 150ms ease, opacity 150ms ease;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #ef8f35, #f3b46e);
+  color: #102434;
+  padding: 12px 18px;
+  font-weight: 700;
+}
+
+.ghostButton,
+.fullWidthButton,
+.tabButton {
+  background: rgba(255, 255, 255, 0.07);
+  color: inherit;
+  padding: 12px 16px;
+}
+
+.fullWidthButton {
+  width: 100%;
+}
+
+.primaryButton:hover,
+.ghostButton:hover,
+.fullWidthButton:hover,
+.tabButton:hover {
+  transform: translateY(-1px);
+}
+
+.primaryButton:disabled,
+.ghostButton:disabled,
+.fullWidthButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.status,
+.panelSubtitle,
+.helperText,
+.disabledNote {
+  color: #8ca0ad;
+  font-size: 12px;
+}
+
+.mastheadCard {
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.benchmarkPositive {
+  background: linear-gradient(160deg, rgba(70, 197, 140, 0.18), rgba(12, 31, 44, 0.85));
+}
+
+.benchmarkNegative {
+  background: linear-gradient(160deg, rgba(239, 106, 103, 0.18), rgba(12, 31, 44, 0.85));
+}
+
+.benchmarkNeutral {
+  background: linear-gradient(160deg, rgba(118, 142, 156, 0.16), rgba(12, 31, 44, 0.85));
+}
+
+.contextScore {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 16px 0 8px;
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+
+.contextScore span,
+.scoreBubble span {
+  font-size: 1rem;
+  color: #a8b7c1;
+}
+
+.contextTitle {
+  font-size: 1.35rem;
+  margin-bottom: 8px;
+}
+
+.successBanner,
+.errorBanner {
+  margin-bottom: 14px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 0.95rem;
+}
+
+.successBanner {
+  background: rgba(70, 197, 140, 0.14);
+  color: #0f6a45;
+}
+
+.errorBanner {
+  background: rgba(239, 106, 103, 0.14);
+  color: #8d2725;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.statCard {
+  padding: 18px;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: #91a4b0;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: clamp(1.45rem, 2.8vw, 2.2rem);
+  font-weight: 700;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(300px, 360px);
+  gap: 18px;
+}
+
+.column,
+.columnWide {
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.columnWide {
+  grid-column: span 1;
+}
+
+.panelHeader,
+.heroHeader,
+.chartTopline,
+.symbolRowTop,
+.symbolRowBottom,
+.orderButtons,
+.metricRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.panelTitle {
+  font-size: 1.3rem;
+  margin-top: 4px;
+}
+
+.searchForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.searchInput,
+.orderInput {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.searchInput::placeholder,
+.orderInput::placeholder {
+  color: #7f95a2;
+}
+
+.symbolList,
+.metricGrid,
+.thesisList,
+.metricStack {
+  display: grid;
+  gap: 12px;
+}
+
+.symbolRow {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  text-align: left;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.symbolRowActive {
+  border-color: rgba(239, 143, 53, 0.6);
+  background: rgba(239, 143, 53, 0.12);
+}
+
+.symbolName {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.signalPill {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.signalBuy {
+  background: rgba(70, 197, 140, 0.14);
+  color: #87e0b7;
+}
+
+.signalHold {
+  background: rgba(255, 255, 255, 0.08);
+  color: #d0d8dd;
+}
+
+.signalReduce {
+  background: rgba(239, 106, 103, 0.16);
+  color: #ffb1af;
+}
+
+.positive {
+  color: #7be3b2;
+}
+
+.negative {
+  color: #ff9c97;
+}
+
+.neutral {
+  color: #d8e1e6;
+}
+
+.scoreBubble {
+  min-width: 98px;
+  min-height: 98px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(239, 143, 53, 0.14);
+  color: #f0bb7a;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.chartFrame {
+  display: grid;
+  gap: 14px;
+}
+
+.chartHeadline,
+.orderPrice {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 700;
+}
+
+.chartSubline {
+  color: #97aab5;
+}
+
+.timeframeTabs {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.tabButtonActive {
+  background: rgba(239, 143, 53, 0.16);
+  color: #f0bb7a;
+}
+
+.chartSvgWrap {
+  overflow: hidden;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+}
+
+.chartSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chartGrid {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+.chartArea {
+  fill: rgba(239, 143, 53, 0.12);
+}
+
+.chartLinePrimary,
+.chartLineAccent,
+.chartLineSecondary {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chartLinePrimary {
+  stroke: #f6efe1;
+}
+
+.chartLineAccent {
+  stroke: #ef8f35;
+}
+
+.chartLineSecondary {
+  stroke: rgba(104, 206, 223, 0.8);
+}
+
+.chartLegend,
+.axisLabels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #8ca0ad;
+  font-size: 12px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendSwatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.legendPrimary {
+  background: #f6efe1;
+}
+
+.legendAccent {
+  background: #ef8f35;
+}
+
+.legendSecondary {
+  background: #68cedf;
+}
+
+.metricGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.metricCard {
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.metricValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.thesisList {
+  list-style: none;
+  padding: 0;
+}
+
+.thesisItem {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #d3dde2;
+  line-height: 1.5;
+}
+
+.orderHero,
+.metricStack {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.orderTicker {
+  font-family: var(--font-mono), monospace;
+  color: #9db0ba;
+}
+
+.inputLabel {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.orderButtons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metricRow {
+  font-size: 0.95rem;
+}
+
+.disabledNote {
+  color: #ffb1af;
+}
+
+.tableWrap {
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.92rem;
+}
+
+.table th {
+  color: #8ca0ad;
+  font-weight: 500;
+}
+
+.tradeSideBuy {
+  color: #7be3b2;
+  font-weight: 700;
+}
+
+.tradeSideSell {
+  color: #ff9c97;
+  font-weight: 700;
+}
+
+.emptyState {
+  color: #8ca0ad;
+  text-align: center;
+  padding: 18px 0;
+}
+
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .column,
+  .columnWide {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .shell {
+    padding: 18px 14px 42px;
+  }
+
+  .masthead {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .statsGrid,
+  .metricGrid,
+  .orderButtons {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    max-width: none;
+  }
+}
