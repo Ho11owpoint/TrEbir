@@ -1,6 +1,7 @@
 import "server-only";
 
 import { round } from "./analysis";
+import { FAST_SCANNER_SYMBOLS } from "./defaults";
 import { createEmptyEventIntelligence, enrichRecommendationsWithEvents } from "./events";
 import { getBenchmarkContext, getMarketSnapshots } from "./market";
 import { suggestPositionPlan } from "./risk";
@@ -24,6 +25,9 @@ import type {
 const SCANNER_CACHE_TTL_MS = 10 * 60 * 1000;
 const RECOMMENDATION_LIMIT = 8;
 const EVENT_AWARE_POOL_SIZE = 14;
+const HOSTED_EVENT_AWARE_POOL_SIZE = 6;
+const LOCAL_SCAN_CONCURRENCY = 10;
+const HOSTED_SCAN_CONCURRENCY = 6;
 
 interface CapitalContext {
   cash: number;
@@ -47,11 +51,13 @@ interface ScannerCache {
   benchmark: MarketContext;
   universeLabel: string;
   universeCount: number;
+  sourceUniverseCount: number;
   analyzedCount: number;
   failedCount: number;
   providerSummary: ScannerResponse["providerSummary"];
   scanFailures: MarketDataFailure[];
   scanItems: ScanDatasetItem[];
+  warnings: string[];
 }
 
 interface ScannerRankingSnapshot {
@@ -63,6 +69,36 @@ interface ScannerRankingSnapshot {
 let scannerCache: ScannerCache | undefined;
 let runningScan: Promise<ScannerCache> | null = null;
 let scanStartedAt: string | null = null;
+
+function isHostedRuntime() {
+  return process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
+}
+
+function selectScannerUniverse(universe: UniverseCompany[]) {
+  if (!isHostedRuntime()) {
+    return {
+      companies: universe,
+      concurrency: LOCAL_SCAN_CONCURRENCY,
+      label: "BIST Tum Hisseler",
+      warnings: [] as string[],
+    };
+  }
+
+  const companyMap = new Map(universe.map((company) => [company.symbol, company]));
+  const companies = FAST_SCANNER_SYMBOLS.map((symbol) => companyMap.get(symbol)).filter(
+    (company): company is UniverseCompany => company !== undefined,
+  );
+
+  return {
+    companies,
+    concurrency: HOSTED_SCAN_CONCURRENCY,
+    label: `BIST Hizli Tarama Evreni (${companies.length} sembol)`,
+    warnings: [
+      `Canli deploy hiz ve zaman asimi guvenligi icin ${companies.length} likit sembolden olusan hizli tarama evreni kullaniliyor.`,
+      `Kaynak evren: ${universe.length} BIST sirketi.`,
+    ],
+  };
+}
 
 function buildThesis(
   snapshot: MarketSnapshot,
@@ -221,7 +257,7 @@ async function buildRecommendations(
   const fallbackItems = evaluatedItems.filter((item) => item.snapshot.signal.action !== "reduce");
   const shortlist = (eligibleItems.length > 0 ? eligibleItems : fallbackItems).slice(
     0,
-    EVENT_AWARE_POOL_SIZE,
+    isHostedRuntime() ? HOSTED_EVENT_AWARE_POOL_SIZE : EVENT_AWARE_POOL_SIZE,
   );
   const totalWeight = shortlist.reduce(
     (total, item) => total + Math.max(item.evaluation.score, 1),
@@ -239,7 +275,10 @@ async function buildRecommendations(
     .filter((item) => item.suggestedShares > 0);
 
   const eventAwareCandidates = await enrichRecommendationsWithEvents(
-    technicalRecommendations.slice(0, EVENT_AWARE_POOL_SIZE),
+    technicalRecommendations.slice(
+      0,
+      isHostedRuntime() ? HOSTED_EVENT_AWARE_POOL_SIZE : EVENT_AWARE_POOL_SIZE,
+    ),
   );
   const enrichedBySymbol = new Map(
     eventAwareCandidates.map((item) => [item.symbol, item]),
@@ -266,11 +305,12 @@ async function runScanner() {
     getBenchmarkContext(),
     getBistUniverse(),
   ]);
+  const selectedUniverse = selectScannerUniverse(universe);
   const market = await getMarketSnapshots(
-    universe.map((item) => item.symbol),
-    10,
+    selectedUniverse.companies.map((item) => item.symbol),
+    selectedUniverse.concurrency,
   );
-  const companyMap = new Map(universe.map((item) => [item.symbol, item]));
+  const companyMap = new Map(selectedUniverse.companies.map((item) => [item.symbol, item]));
   const scanItems = market.symbols
     .map<ScanDatasetItem | null>((snapshot) => {
       const company = companyMap.get(snapshot.symbol);
@@ -289,22 +329,40 @@ async function runScanner() {
   return {
     generatedAt: new Date().toISOString(),
     benchmark,
-    universeLabel: "BIST Tum Hisseler",
-    universeCount: universe.length,
+    universeLabel: selectedUniverse.label,
+    universeCount: selectedUniverse.companies.length,
+    sourceUniverseCount: universe.length,
     analyzedCount: market.symbols.length,
     failedCount: market.errors.length,
     providerSummary: market.providerSummary,
     scanFailures: market.errors.slice(0, 24),
     scanItems,
+    warnings: selectedUniverse.warnings,
   } satisfies ScannerCache;
 }
 
-async function ensureScannerStarted(forceRefresh = false) {
+async function ensureScannerReady(forceRefresh = false) {
   const cacheExpired =
     !scannerCache ||
     Date.now() - new Date(scannerCache.generatedAt).getTime() > SCANNER_CACHE_TTL_MS;
 
-  if ((forceRefresh || cacheExpired) && !runningScan) {
+  if (forceRefresh || cacheExpired) {
+    if (!runningScan) {
+      scanStartedAt = new Date().toISOString();
+      runningScan = runScanner()
+        .then((result) => {
+          scannerCache = result;
+          return result;
+        })
+        .finally(() => {
+          runningScan = null;
+        });
+    }
+
+    return runningScan;
+  }
+
+  if (!scannerCache && !runningScan) {
     scanStartedAt = new Date().toISOString();
     runningScan = runScanner()
       .then((result) => {
@@ -315,26 +373,28 @@ async function ensureScannerStarted(forceRefresh = false) {
         runningScan = null;
       });
   }
+
+  if (runningScan) {
+    return runningScan;
+  }
+
+  return scannerCache;
 }
 
 export async function getScannerRankingSnapshot(
   strategy: StrategyProfileId = "rank-score",
   forceRefresh = false,
 ): Promise<ScannerRankingSnapshot> {
-  await ensureScannerStarted(forceRefresh);
+  const activeCache = await ensureScannerReady(forceRefresh);
 
-  if (!scannerCache && runningScan) {
-    await runningScan;
-  }
-
-  if (!scannerCache) {
+  if (!activeCache) {
     throw new Error("Tarama sonuclari hazir degil.");
   }
 
   return {
-    generatedAt: scannerCache.generatedAt,
-    benchmark: scannerCache.benchmark,
-    rankedItems: evaluateScanItems(scannerCache, strategy),
+    generatedAt: activeCache.generatedAt,
+    benchmark: activeCache.benchmark,
+    rankedItems: evaluateScanItems(activeCache, strategy),
   };
 }
 
@@ -343,38 +403,7 @@ export async function getScannerOverview(
   forceRefresh = false,
   strategy: StrategyProfileId = "rank-score",
 ): Promise<ScannerResponse> {
-  await ensureScannerStarted(forceRefresh);
-
-  if (!scannerCache && runningScan) {
-    return {
-      status: {
-        state: "running",
-        stale: false,
-      },
-      generatedAt: null,
-      startedAt: scanStartedAt,
-      strategy: {
-        activeStrategy: strategy,
-        activeLabel: getStrategyProfileDescriptor(strategy).label,
-        activeDescription: getStrategyProfileDescriptor(strategy).description,
-        availableStrategies: getStrategyProfileDescriptors(),
-        comparisons: [],
-      },
-      benchmark: null,
-      universeLabel: "BIST Tum Hisseler",
-      universeCount: 0,
-      analyzedCount: 0,
-      failedCount: 0,
-      providerSummary: [],
-      failureSummary: [],
-      scanFailures: [],
-      recommendations: [],
-      topSymbols: [],
-      warnings: ["Tum BIST evreni taraniyor. Ilk sonuc biraz surebilir."],
-    };
-  }
-
-  const activeCache = scannerCache;
+  const activeCache = await ensureScannerReady(forceRefresh);
 
   if (!activeCache) {
     throw new Error("Tarama sonuclari hazir degil.");
@@ -391,8 +420,8 @@ export async function getScannerOverview(
 
   return {
     status: {
-      state: runningScan ? "running" : "ready",
-      stale: runningScan !== null,
+      state: "ready",
+      stale: false,
     },
     generatedAt: activeCache.generatedAt,
     startedAt: scanStartedAt,
@@ -407,6 +436,11 @@ export async function getScannerOverview(
     scanFailures: activeCache.scanFailures,
     recommendations,
     topSymbols: recommendations.map((item) => item.symbol),
-    warnings: [...failureWarnings, ...activeCache.scanFailures.slice(0, 4).map((item) => `${item.symbol}: ${item.message}`), ...eventWarnings],
+    warnings: [
+      ...activeCache.warnings,
+      ...failureWarnings,
+      ...activeCache.scanFailures.slice(0, 4).map((item) => `${item.symbol}: ${item.message}`),
+      ...eventWarnings,
+    ],
   };
 }

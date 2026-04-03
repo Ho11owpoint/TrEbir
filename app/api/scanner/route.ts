@@ -4,6 +4,9 @@ import { getPortfolio } from "@/lib/portfolio";
 import { getScannerOverview } from "@/lib/scanner";
 import type { ScannerResponse, StrategyProfileId } from "@/lib/types";
 
+export const runtime = "nodejs";
+export const maxDuration = 60;
+
 function parseStrategy(value: string | null): StrategyProfileId {
   if (
     value === "momentum" ||
