@@ -25,9 +25,9 @@ import type {
 const SCANNER_CACHE_TTL_MS = 10 * 60 * 1000;
 const RECOMMENDATION_LIMIT = 8;
 const EVENT_AWARE_POOL_SIZE = 14;
-const HOSTED_EVENT_AWARE_POOL_SIZE = 6;
-const LOCAL_SCAN_CONCURRENCY = 10;
-const HOSTED_SCAN_CONCURRENCY = 6;
+const FAST_EVENT_AWARE_POOL_SIZE = 6;
+const DEFAULT_SCAN_CONCURRENCY = 10;
+const FAST_SCAN_CONCURRENCY = 6;
 
 interface CapitalContext {
   cash: number;
@@ -70,15 +70,15 @@ let scannerCache: ScannerCache | undefined;
 let runningScan: Promise<ScannerCache> | null = null;
 let scanStartedAt: string | null = null;
 
-function isHostedRuntime() {
-  return process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
+function isFastScannerMode() {
+  return process.env.SCANNER_UNIVERSE?.trim().toLowerCase() === "fast";
 }
 
 function selectScannerUniverse(universe: UniverseCompany[]) {
-  if (!isHostedRuntime()) {
+  if (!isFastScannerMode()) {
     return {
       companies: universe,
-      concurrency: LOCAL_SCAN_CONCURRENCY,
+      concurrency: DEFAULT_SCAN_CONCURRENCY,
       label: "BIST Tum Hisseler",
       warnings: [] as string[],
     };
@@ -91,10 +91,10 @@ function selectScannerUniverse(universe: UniverseCompany[]) {
 
   return {
     companies,
-    concurrency: HOSTED_SCAN_CONCURRENCY,
+    concurrency: FAST_SCAN_CONCURRENCY,
     label: `BIST Hizli Tarama Evreni (${companies.length} sembol)`,
     warnings: [
-      `Canli deploy hiz ve zaman asimi guvenligi icin ${companies.length} likit sembolden olusan hizli tarama evreni kullaniliyor.`,
+      `Scanner hizli modda calisiyor; ${companies.length} likit sembolden olusan daraltulmis evren kullaniliyor.`,
       `Kaynak evren: ${universe.length} BIST sirketi.`,
     ],
   };
@@ -257,7 +257,7 @@ async function buildRecommendations(
   const fallbackItems = evaluatedItems.filter((item) => item.snapshot.signal.action !== "reduce");
   const shortlist = (eligibleItems.length > 0 ? eligibleItems : fallbackItems).slice(
     0,
-    isHostedRuntime() ? HOSTED_EVENT_AWARE_POOL_SIZE : EVENT_AWARE_POOL_SIZE,
+    isFastScannerMode() ? FAST_EVENT_AWARE_POOL_SIZE : EVENT_AWARE_POOL_SIZE,
   );
   const totalWeight = shortlist.reduce(
     (total, item) => total + Math.max(item.evaluation.score, 1),
@@ -277,7 +277,7 @@ async function buildRecommendations(
   const eventAwareCandidates = await enrichRecommendationsWithEvents(
     technicalRecommendations.slice(
       0,
-      isHostedRuntime() ? HOSTED_EVENT_AWARE_POOL_SIZE : EVENT_AWARE_POOL_SIZE,
+      isFastScannerMode() ? FAST_EVENT_AWARE_POOL_SIZE : EVENT_AWARE_POOL_SIZE,
     ),
   );
   const enrichedBySymbol = new Map(
